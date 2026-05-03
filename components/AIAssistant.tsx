@@ -33,22 +33,21 @@ export function AIAssistant({ page }: { page: string }) {
     }
   }
 
-  return <section className="glass rounded-2xl p-5 space-y-3">
-    <div className="flex justify-between"><span className="rounded-full bg-brand-500/20 px-3 py-1 text-xs">AI Order Assistant</span><span className="text-xs">{status}</span></div>
-    <h2 className="text-2xl font-semibold">Need help with your order?</h2>
-    <p className="text-slate-300">This AI assistant helps us with organized quote requests by collecting project type, artwork status, quantity, deadline, design needs, and order details before routing to CWG.</p>
+  return <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl space-y-4">
+    <div className="flex flex-wrap items-center justify-between gap-2"><div><p className="text-xs font-semibold uppercase tracking-wide text-blue-700">CWG AI Order Assistant</p><h2 className="text-2xl font-bold text-slate-900">Tell me what you’re trying to make.</h2></div><span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">{status}</span></div>
+    <p className="text-slate-600">Need help with your order? Start your request in under 60 seconds. CWG will review and follow up with pricing and next steps.</p><div className="grid grid-cols-5 gap-2 text-xs">{["Contact","Project Type","Artwork","Details","Send Request"].map((step,idx)=><div key={step} className={`rounded-full px-2 py-1 text-center ${idx===0?"bg-blue-600 text-white":"bg-slate-100 text-slate-600"}`}>{step}</div>)}</div>
     <div className="grid gap-2 md:grid-cols-2">
-      <input className="rounded bg-slate-800 p-2" placeholder="Full name*" value={contact.fullName} onChange={(e)=>setContact({...contact, fullName:e.target.value})}/>
-      <input className="rounded bg-slate-800 p-2" placeholder="Email*" value={contact.email} onChange={(e)=>setContact({...contact, email:e.target.value})}/>
-      <input className="rounded bg-slate-800 p-2" placeholder="Phone*" value={contact.phone} onChange={(e)=>setContact({...contact, phone:e.target.value})}/>
-      <input className="rounded bg-slate-800 p-2" placeholder="Company" value={contact.company} onChange={(e)=>setContact({...contact, company:e.target.value})}/>
+      <input className="rounded-xl border border-slate-300 bg-white p-3" placeholder="Full name*" value={contact.fullName} onChange={(e)=>setContact({...contact, fullName:e.target.value})}/>
+      <input className="rounded-xl border border-slate-300 bg-white p-3" placeholder="Email*" value={contact.email} onChange={(e)=>setContact({...contact, email:e.target.value})}/>
+      <input className="rounded-xl border border-slate-300 bg-white p-3" placeholder="Phone*" value={contact.phone} onChange={(e)=>setContact({...contact, phone:e.target.value})}/>
+      <input className="rounded-xl border border-slate-300 bg-white p-3" placeholder="Company" value={contact.company} onChange={(e)=>setContact({...contact, company:e.target.value})}/>
     </div>
-    {done && <div><p className="text-sm mb-1">Great Ideas Mode</p><div className="flex flex-wrap gap-2">{modes.map((m)=><button key={m} className={`rounded border px-2 py-1 text-xs ${workflowMode===m?"bg-brand-500/30":""}`} onClick={()=>setWorkflowMode(m)}>{m}</button>)}</div></div>}
-    <div className="max-h-56 overflow-y-auto rounded bg-slate-950 p-3 text-sm space-y-1">{conversation.map((m,i)=><p key={i}><b>{m.role === "assistant" ? "AI" : "You"}:</b> {m.content}</p>)}</div>
-    <div className="flex flex-wrap gap-2">{prompts.map((p)=><button key={p} onClick={()=>send(p)} className="rounded border px-2 py-1 text-xs">{p}</button>)}</div>
-    <div className="flex flex-wrap gap-2">{industry.map((i)=><button key={i} onClick={()=>send(`Give me ${i} ideas in CWG categories.`)} className="rounded bg-slate-800 px-2 py-1 text-xs">{i}</button>)}</div>
-    <textarea value={msg} onChange={(e)=>setMsg(e.target.value)} className="h-24 w-full rounded bg-slate-800 p-2" placeholder="Tell our AI assistant what you’re trying to make."/>
-    <div className="flex gap-2"><button onClick={()=>send()} className="rounded bg-brand-500 px-4 py-2">Send</button><select value={projectType} onChange={(e)=>setProjectType(e.target.value as ProjectType)} className="rounded bg-slate-800 p-2"><option value="">Project Type</option><option>Screen Printing</option><option>Embroidery</option><option>Ad Specialty / Promotional Item</option></select></div>
+    {done && <div><p className="text-sm mb-1">Great Ideas Mode</p><div className="flex flex-wrap gap-2">{modes.map((m)=><button key={m} className={`rounded-full border px-3 py-1 text-xs ${workflowMode===m?"border-blue-600 bg-blue-50 text-blue-700":"border-slate-300 bg-white text-slate-700"}`} onClick={()=>setWorkflowMode(m)}>{m}</button>)}</div></div>}
+    <div className="max-h-56 overflow-y-auto rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm space-y-2">{conversation.map((m,i)=><p key={i}><b>{m.role === "assistant" ? "AI" : "You"}:</b> {m.content}</p>)}</div>
+    <div className="flex flex-wrap gap-2">{prompts.map((p)=><button key={p} onClick={()=>send(p)} className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs hover:border-blue-300 hover:bg-blue-50">{p}</button>)}</div>
+    <div className="flex flex-wrap gap-2">{industry.map((i)=><button key={i} onClick={()=>send(`Give me ${i} ideas in CWG categories.`)} className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700 hover:bg-slate-200">{i}</button>)}</div>
+    <textarea value={msg} onChange={(e)=>setMsg(e.target.value)} className="h-24 w-full rounded-2xl border border-slate-300 bg-white p-3" placeholder="Tell our AI assistant what you’re trying to make."/>
+    <div className="grid gap-2 md:grid-cols-3">{["Screen Printing","Embroidery","Ad Specialty / Promotional Item"].map((p)=> <button key={p} onClick={()=>setProjectType(p as ProjectType)} className={`rounded-2xl border p-3 text-left text-sm ${projectType===p?"border-blue-600 bg-blue-50":"border-slate-300 bg-white"}`}>{p}</button>)}</div><div className="flex gap-2"><button onClick={()=>send()} className="rounded-full bg-blue-600 px-5 py-2.5 font-semibold text-white shadow">Build My Request</button></div>
     {lead && <LeadView lead={lead} setLead={setLead} />}
   </section>;
 }
@@ -60,14 +59,14 @@ function LeadView({ lead, setLead }: { lead: LeadData; setLead: (l: LeadData)=>v
     setLead({...lead, sendStatus: data.status, emailPreview: data.preview || data.message});
   }
   const checklist = ["size breakdown", "artwork/logo file", "deadline", "budget level", "product style preference", "ink/thread colors", "delivery/pickup preference"];
-  return <div className='rounded border border-slate-700 p-4 text-sm space-y-2'>
-    <div className='flex gap-2'><span className='rounded bg-slate-800 px-2 py-1'>Lead Score: {lead.leadScore}</span><span className='rounded bg-slate-800 px-2 py-1'>Mode: {lead.workflowMode || 'Standard'}</span><span className='rounded bg-slate-800 px-2 py-1'>Send: {lead.sendStatus}</span></div>
+  return <div className='rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm space-y-3'>
+    <div className='flex gap-2'><span className='rounded-full bg-white border border-slate-300 px-3 py-1'>Lead Score: {lead.leadScore}</span><span className='rounded-full bg-white border border-slate-300 px-3 py-1'>Mode: {lead.workflowMode || 'Standard'}</span><span className='rounded-full bg-white border border-slate-300 px-3 py-1'>Send: {lead.sendStatus}</span></div>
     <p><b>Product Direction</b></p><ul className='list-disc ml-5'><li>Budget-Friendly: {lead.orderDetails.productDirection.budgetFriendly}</li><li>Mid-Range: {lead.orderDetails.productDirection.midRange}</li><li>Premium: {lead.orderDetails.productDirection.premium}</li></ul>
     <p><b>Missing Information Checklist</b></p>
     <div className='grid md:grid-cols-2 gap-1'>{checklist.map((c)=><label key={c} className='flex items-center gap-2'><input type='checkbox' checked={!lead.orderDetails.missingInfo.includes(c)} readOnly/>{c}</label>)}</div>
     <p><b>Internal Sales Note:</b> {lead.salesNote}</p>
     <p><b>Suggested Sales Reply:</b> {lead.suggestedSalesReply}</p>
-    <button onClick={sendToCWG} className='rounded bg-brand-500 px-4 py-2'>Send Request to CWG</button>
-    {lead.emailPreview && <pre className='overflow-auto rounded bg-slate-950 p-3 text-xs'>{lead.emailPreview}</pre>}
+    <button onClick={sendToCWG} className='rounded-full bg-blue-600 px-5 py-2.5 font-semibold text-white shadow'>Send Request to CWG</button>
+    {lead.emailPreview && <pre className='overflow-auto rounded-xl border border-slate-200 bg-white p-3 text-xs'>{lead.emailPreview}</pre>}
   </div>;
 }
