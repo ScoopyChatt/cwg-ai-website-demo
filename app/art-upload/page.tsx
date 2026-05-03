@@ -1,0 +1,2 @@
+import { PageTemplate } from "@/components/PageTemplate";
+export default function Page(){return <div className='space-y-6'><PageTemplate title="Art Upload / Design Help" subtitle="Upload artwork or create a design brief with the CWG AI assistant."/><div className='glass rounded-xl p-4'><p className='font-semibold'>Demo upload area</p><input type='file' className='mt-2'/><p className='text-sm text-slate-300 mt-2'>Accepted formats: AI, EPS, PDF, SVG, PNG, JPG</p></div></div>}
